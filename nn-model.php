@@ -76,7 +76,7 @@ class model {
 	}
 
 	function dim_check($arr,$ch){
-		if((count($arr[0]) == $ch[0]) && (count($arr[0][0])==$ch[1])){
+		if((count($arr) == $ch[0]) && (count($arr[0])==$ch[1])){
 			return True;
 		}
 		else{
@@ -90,7 +90,7 @@ class model {
 		while($i < count($flow)){
 			
 			
-			if($this->dim_check($weights['data'][$i],array($flow[$k],$flow[$k+1]))){
+			if($this->dim_check($weights[0][$i],array($flow[$k],$flow[$k+1]))){
 				$k++;
 			}
 			else{
@@ -98,8 +98,8 @@ class model {
 			}
 			if($bias[$k]){
 				$i++;
-				if(count($weights['data'][$i][0])==$flow[$k]){
-					#echo "done";
+				if(count($weights[0][$i])==$flow[$k]){
+					
 				}
 				else{
 					return False;
@@ -110,6 +110,7 @@ class model {
 			$i++;
 		
 		}
+		echo "Weights checked/n";
 		return True;
 	}
 
@@ -125,8 +126,8 @@ class model {
 		$input = $testinputs;
 		$overall = 0;
 		$layew = 0;
-		while($overall < count($this->weights['data'])){
-			$rl = $this->matmul($input,$this->weights['data'][$overall][0]);
+		while($overall < count($this->weights[0])){
+			$rl = $this->matmul($input,$this->weights[0][$overall]);
 			if(!$rl[0]){
 				echo "problem in multiplying at";
 				echo $overall;
@@ -135,7 +136,7 @@ class model {
 			$midinp=$rl[1];
 			if($this->hidn[$layew][2]){
 				$overall++;
-				$midinp = $this->add($midinp,$this->weights['data'][$overall][0]);
+				$midinp = $this->add($midinp,$this->weights['0'][$overall]);
 			}
 			echo count($midinp);
 			echo "-";
@@ -168,8 +169,10 @@ class model {
 			if($this->check_weights($this->weights,$this->flow,$this->bias)){
 				echo "model loaded";
 			}
-			#$this->$this->name = $persons_name;
-			
+			#var_dump($this->flow);
+			#var_dump($this->hidn);
+			#var_dump($this->bias);
+			#var_dump($this->weights);
 		}
 	#$acti =new acti;
 	#$vv = $hidn[2][1];
